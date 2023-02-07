@@ -1,14 +1,11 @@
 const ClientServices = require('../Services/ClientService');
 
-function loginController(req, res) {
-  res.send(ClientServices.loginService());
-}
-
-function signupController(req, res) {
-  res.send(ClientServices.SignupService());
+async function createUserController(req, res) {
+  let { email, password, tel, address } = req.body;
+  let result = await ClientServices.CreateUser(email, password, tel, address);
+  res.json(result);
 }
 
 module.exports = {
-  loginController,
-  signupController,
+  createUserController,
 };
