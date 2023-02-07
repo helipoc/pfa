@@ -1,9 +1,9 @@
 const { PrismaClient } = require('@prisma/client');
 const DAO = new PrismaClient();
 
-async function CreateUser(email, password, tel, address) {
+async function createClient(email, password, tel, address) {
   try {
-    await DAO.user.create({
+    await DAO.client.create({
       data: {
         email,
         password,
@@ -13,7 +13,7 @@ async function CreateUser(email, password, tel, address) {
     });
     return {
       success: true,
-      msg: 'user created',
+      msg: 'client created',
     };
   } catch (e) {
     return {
@@ -24,5 +24,5 @@ async function CreateUser(email, password, tel, address) {
 }
 
 module.exports = {
-  CreateUser,
+  createClient,
 };
