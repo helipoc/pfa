@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const DAO = new PrismaClient();
 
-async function CreateColis(desc, poid, addressDelv, NameDelv, clientId) {
+async function CreateColis(desc, poid, addressDelv, NameDelv, city, clientId) {
   try {
     await DAO.colis.create({
       data: {
@@ -9,6 +9,7 @@ async function CreateColis(desc, poid, addressDelv, NameDelv, clientId) {
         poid,
         addressDelv,
         NameDelv,
+        city,
         clientId,
       },
     });
@@ -24,6 +25,23 @@ async function CreateColis(desc, poid, addressDelv, NameDelv, clientId) {
   }
 }
 
+async function getColisByCity(city) {
+  try {
+    let data = await DAO.colis.findMany({
+      where: {
+        city,
+      },
+    });
+    return data;
+  } catch (e) {
+    return {
+      success: true,
+      msg: 'colis created',
+    };
+  }
+}
+
 module.exports = {
   CreateColis,
+  getColisByCity,
 };

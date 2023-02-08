@@ -10,14 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ColisState {
+  NEW
+  PICKED
+  DELIVERED
+  CANCELED
+}
+
 model Colis {
-  id          Int    @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   desc        String
   poid        Float
+  city        String
   addressDelv String
   NameDelv    String
+  state       ColisState @default(NEW)
   clientId    Int
-  owner       Client @relation(fields: [clientId], references: [id])
+  owner       Client     @relation(fields: [clientId], references: [id])
 }
 
 model Client {
