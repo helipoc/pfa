@@ -12,21 +12,25 @@ datasource db {
 
 enum ColisState {
   NEW
-  PICKED
+  PICKED_FROM_CLIENT
+  STORED_IN_WAREHOUSE
+  PICKED_FROM_WAREHOUSE
   DELIVERED
   CANCELED
 }
 
 model Colis {
-  id          Int        @id @default(autoincrement())
-  desc        String
-  poid        Float
-  city        String
-  addressDelv String
-  NameDelv    String
-  state       ColisState @default(NEW)
-  clientId    Int
-  owner       Client     @relation(fields: [clientId], references: [id])
+  id            Int          @id @default(autoincrement())
+  desc          String
+  poid          Float
+  city          String
+  addressDelv   String
+  NameDelv      String
+  state         ColisState   @default(NEW)
+  clientId      Int
+  deliverymanId Int?
+  owner         Client       @relation(fields: [clientId], references: [id])
+  deliveryman   Deliveryman? @relation(fields: [deliverymanId], references: [id])
 }
 
 model Client {
@@ -35,5 +39,14 @@ model Client {
   email    String  @unique
   password String
   address  String
+  colis    Colis[]
+}
+
+model Deliveryman {
+  id       Int     @id @default(autoincrement())
+  tel      String
+  city     String
+  email    String  @unique
+  password String
   colis    Colis[]
 }

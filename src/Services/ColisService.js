@@ -30,6 +30,7 @@ async function getColisByCity(city) {
     let data = await DAO.colis.findMany({
       where: {
         city,
+        state: 'NEW',
       },
     });
     return data;
