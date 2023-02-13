@@ -56,6 +56,18 @@ async function StoreInWarehouse(req, res) {
   res.json(result);
 }
 
+async function availableInWarehouse(req, res) {
+  let { del_id } = req.del_id;
+  let result = await DeliveryService.availableInWarehouse(del_id);
+  res.json(result);
+}
+
+async function cancelColis(req, res) {
+  let { colis_id } = req.params;
+  let result = await DeliveryService.cancelColis(parseInt(colis_id));
+  res.json(result);
+}
+
 module.exports = {
   loginController,
   createDeliveryManController,
@@ -65,4 +77,6 @@ module.exports = {
   PickedFromWareHouse,
   StoreInWarehouse,
   deliveredColis,
+  availableInWarehouse,
+  cancelColis,
 };

@@ -61,8 +61,31 @@ async function storedInWarehouse(wr_id) {
   }
 }
 
+async function needWarehouseChange(wr_id) {
+  try {
+    let warehouse = await DAO.warehouse.findFirstOrThrow({
+      where: { id: wr_id },
+    });
+    let colisInWarehouse = await DAO.colis.findMany({
+      where: {
+        NOT: {
+          city: warehouse.city,
+        },
+        state: 'STORED_IN_WAREHOUSE',
+      },
+    });
+    return colisInWarehouse;
+  } catch (e) {
+    return {
+      success: false,
+      msg: e.message,
+    };
+  }
+}
+
 module.exports = {
   createWarehouse,
   login,
   storedInWarehouse,
+  needWarehouseChange,
 };

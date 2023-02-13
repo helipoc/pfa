@@ -24,6 +24,7 @@ model Colis {
   desc          String
   poid          Float
   city          String
+  cityDelv      String
   addressDelv   String
   NameDelv      String
   state         ColisState   @default(NEW)

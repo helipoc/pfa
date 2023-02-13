@@ -6,6 +6,13 @@ async function createClientController(req, res) {
   res.json(result);
 }
 
+async function loginController(req, res) {
+  let { email, password } = req.body;
+  let result = await ClientServices.login(email, password);
+  res.json(result);
+}
+
 module.exports = {
   createClientController,
+  loginController,
 };

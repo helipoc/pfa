@@ -5,7 +5,7 @@ const DAO = new PrismaClient();
 
 async function login(email, password) {
   try {
-    let del = await DAO.deliveryman.findUnique({ where: { email } });
+    let del = await DAO.deliveryman.findUniqueOrThrow({ where: { email } });
     let b = bcrypt.compareSync(password, del.password);
     if (b) {
       return {
@@ -20,7 +20,7 @@ async function login(email, password) {
   }
   return {
     success: false,
-    msg: 'password incorrect',
+    msg: 'email/password incorrect',
   };
 }
 async function createDeliv(email, password, tel, city) {
@@ -144,6 +144,47 @@ async function deliveredColis(colis_id) {
   }
 }
 
+async function availableInWarehouse(del_id) {
+  try {
+    let currentDel = await DAO.deliveryman.findFirstOrThrow({
+      where: { id: del_id },
+    });
+    let colis = await DAO.colis.findMany({
+      where: {
+        city: currentDel.city,
+        state: 'STORED_IN_WAREHOUSE',
+      },
+    });
+    return colis;
+  } catch (e) {
+    return {
+      success: false,
+      msg: e.message,
+    };
+  }
+}
+
+async function cancelColis(colis_id) {
+  try {
+    await DAO.colis.update({
+      where: {
+        id: colis_id,
+      },
+      data: {
+        state: 'CANCELED',
+      },
+    });
+    return {
+      success: true,
+    };
+  } catch (e) {
+    return {
+      success: false,
+      msg: e.message,
+    };
+  }
+}
+
 module.exports = {
   createDeliv,
   login,
@@ -153,4 +194,6 @@ module.exports = {
   deliveredColis,
   getPickedFromWareHouse,
   getPickedFromClientColis,
+  availableInWarehouse,
+  cancelColis,
 };

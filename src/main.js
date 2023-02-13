@@ -4,7 +4,6 @@ const ClientRouter = require('./Routes/ClientRoutes');
 const ColisRouter = require('./Routes/ColisRoutes');
 const DeliveryRouter = require('./Routes/DeliveryRoutes');
 const WarehouesRouter = require('./Routes/WarehouseRoutes');
-//TODO warehouse to warehouse and client read data about colis
 app.use(express.json());
 app.use('/client', ClientRouter);
 app.use('/colis', ColisRouter);

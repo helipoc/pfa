@@ -18,8 +18,15 @@ async function storeInwarehouseController(req, res) {
   res.json(result);
 }
 
+async function needWarehouseChangeController(req, res) {
+  let wh_id = req.wh_id;
+  let result = await WarehouseService.needWarehouseChange(wh_id);
+  res.json(result);
+}
+
 module.exports = {
   createWareController,
   loginController,
   storeInwarehouseController,
+  needWarehouseChangeController,
 };
