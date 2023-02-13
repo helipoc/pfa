@@ -65,11 +65,16 @@ async function pickColisFromClient(del_id, colis_id) {
 
 async function storeInWareHouse(colis_id) {
   try {
+    let colis = await DAO.colis.findFirstOrThrow({ where: { id: colis_id } });
+    let wr = await DAO.warehouse.findFirstOrThrow({
+      where: { city: colis.city },
+    });
     await DAO.colis.update({
       where: { id: colis_id },
       data: {
         state: 'STORED_IN_WAREHOUSE',
         deliverymanId: null,
+        warehouseId: wr.id,
       },
     });
   } catch (e) {
@@ -112,7 +117,7 @@ async function getPickedFromClientColis(del_id) {
 
 async function getPickedFromWareHouse(del_id) {
   try {
-    await DAO.colis.findMany({
+    return await DAO.colis.findMany({
       where: { deliverymanId: del_id, state: 'PICKED_FROM_WAREHOUSE' },
     });
   } catch (e) {

@@ -9,7 +9,7 @@ async function CreateColis(desc, poid, addressDelv, NameDelv, city, clientId) {
         poid,
         addressDelv,
         NameDelv,
-        city,
+        city: city.toUpperCase(),
         clientId,
       },
     });

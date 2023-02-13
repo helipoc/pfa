@@ -31,7 +31,16 @@ async function PickedFromClient(req, res) {
 async function pickColisFromWarehouse(req, res) {
   let { colis_id } = req.params;
   let del_id = req.del_id;
-  let result = await DeliveryService.pickFromWareHouse(del_id, colis_id);
+  let result = await DeliveryService.pickFromWareHouse(
+    del_id,
+    parseInt(colis_id)
+  );
+  res.json(result);
+}
+
+async function deliveredColis(req, res) {
+  let { colis_id } = req.params;
+  let result = await DeliveryService.deliveredColis(parseInt(colis_id));
   res.json(result);
 }
 
@@ -43,7 +52,7 @@ async function PickedFromWareHouse(req, res) {
 
 async function StoreInWarehouse(req, res) {
   let { colis_id } = req.params;
-  let result = await DeliveryService.storeInWareHouse(colis_id);
+  let result = await DeliveryService.storeInWareHouse(parseInt(colis_id));
   res.json(result);
 }
 
@@ -55,4 +64,5 @@ module.exports = {
   pickColisFromWarehouse,
   PickedFromWareHouse,
   StoreInWarehouse,
+  deliveredColis,
 };

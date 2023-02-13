@@ -31,6 +31,8 @@ model Colis {
   deliverymanId Int?
   owner         Client       @relation(fields: [clientId], references: [id])
   deliveryman   Deliveryman? @relation(fields: [deliverymanId], references: [id])
+  Warehouse     Warehouse?   @relation(fields: [warehouseId], references: [id])
+  warehouseId   Int?
 }
 
 model Client {
@@ -45,6 +47,16 @@ model Client {
 model Deliveryman {
   id       Int     @id @default(autoincrement())
   tel      String
+  city     String
+  email    String  @unique
+  password String
+  colis    Colis[]
+}
+
+//TODO ware house
+
+model Warehouse {
+  id       Int     @id @default(autoincrement())
   city     String
   email    String  @unique
   password String
